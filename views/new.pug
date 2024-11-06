@@ -1,32 +1,88 @@
-form.form-inline(action="/post" method="POST" enctype="multipart/form-data")
-  .row
-    .col
-      .input-group.mb-2.mr-sm-2
-        label.input-label(for="snackName") 과자 이름*
-        input.form-control#snackName(type="text" name="snackName" required)
+doctype html
+html
+  head
+    title Snack Submission
+    link(rel="stylesheet" href="/public/css/style.css")
+  body
+    form.form-inline(action="/post" method="POST" enctype="multipart/form-data" id="snackForm")
+      .row
+        .col
+          .input-group.mb-2.mr-sm-2
+            label.input-label(for="snackName") 과자 이름*
+            input.form-control#snackName(type="text" name="snackName" required)
+        .col
+          .input-group.mb-2.mr-sm-2.file-input-wrapper
+            label.input-label(for="photo") 사진 첨부
+            label.custom-file-label 파일 선택
+            input#photo(type="file" name="photo")
+      .nutrition-container(style="display: flex; justify-content: space-around; border: 2px solid #3a1e00; border-radius: 10px; padding: 10px; background-color: #fff7e6; max-width: 650px; width: 100%; box-sizing: border-box; margin: 0 auto;")
+        .nutrition-field(style="flex-basis: 22%; text-align: center;")
+          label(for="calories") 칼로리
+          input.form-control#calories(type="text" name="calories")
+        .nutrition-field(style="flex-basis: 22%; text-align: center;")
+          label(for="carbohydrates") 탄수화물
+          input.form-control#carbohydrates(type="text" name="carbohydrates")
+        .nutrition-field(style="flex-basis: 22%; text-align: center;")
+          label(for="protein") 단백질
+          input.form-control#protein(type="text" name="protein")
+        .nutrition-field(style="flex-basis: 22%; text-align: center;")
+          label(for="fat")  지방  
+          input.form-control#fat(type="text" name="fat")
+      button.btn.btn-primary.mb-2(type="button" onclick="submitSnack(event)") Pass to MongoDB
 
-    .col
-      .input-group.mb-2.mr-sm-2.file-input-wrapper
-        label.input-label(for="photo") 사진 첨부
-        label.custom-file-label 파일 선택
-        input#photo(type="file" name="photo")
+    // script.js 내용 포함
+    script.
+      async function submitSnack(event) {
+        event.preventDefault();
+        const name = document.getElementById("snackName").value;
+        const imageFile = document.getElementById("photo").files[0];
+        const calories = document.getElementById("calories").value || "정보 없음";
+        const carbohydrates = document.getElementById("carbohydrates").value || "정보 없음";
+        const protein = document.getElementById("protein").value || "정보 없음";
+        const fat = document.getElementById("fat").value || "정보 없음";
 
-  //- 영양 정보 필드 그룹
-  .nutrition-container(style="display: flex; justify-content: space-around; border: 2px solid #3a1e00; border-radius: 10px; padding: 10px; background-color: #fff7e6; max-width: 650px; width: 100%; box-sizing: border-box; margin: 0 auto;")
-    .nutrition-field(style="flex-basis: 22%; text-align: center;")
-      label(for="calories") 칼로리
-      input.form-control#calories(type="text" name="calories")
+        if (!imageFile) {
+          alert("Please select an image file.");
+          console.error("No image file selected.");
+          return;
+        }
 
-    .nutrition-field(style="flex-basis: 22%; text-align: center;")
-      label(for="carbohydrates") 탄수화물
-      input.form-control#carbohydrates(type="text" name="carbohydrates")
+        const reader = new FileReader();
+        reader.onloadend = async () => {
+          const base64Image = reader.result;
+          const snackData = {
+            name: name,
+            nutritionalIngredients: {
+              칼로리: calories,
+              탄: carbohydrates,
+              단: protein,
+              지: fat,
+            },
+            image: base64Image,
+          };
 
-    .nutrition-field(style="flex-basis: 22%; text-align: center;")
-      label(for="protein") 단백질
-      input.form-control#protein(type="text" name="protein")
+          try {
+            console.log(snackData)
+            const response = await fetch("/post", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(snackData),
+            });
 
-    .nutrition-field(style="flex-basis: 22%; text-align: center;")
-      label(for="fat")   지방  
-      input.form-control#fat(type="text" name="fat")
+            if (response.ok) {
+              alert("Snack successfully added to MongoDB!");
+              document.getElementById("snackForm").reset();
+            } else {
+              const error = await response.json();
+              alert("Failed to add snack: " + error.message);
+            }
+          } catch (error) {
+            console.error("Error submitting snackkk:", error);
+            alert("An error occurred while submitting the snack.");
+          }
+        };
 
-  button.btn.btn-primary.mb-2(type="submit") Pass to MongoDB
+        reader.readAsDataURL(imageFile);
+      }

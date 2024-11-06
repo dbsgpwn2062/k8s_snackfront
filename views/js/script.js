@@ -98,19 +98,11 @@ async function submitSnack(event) {
   const protein = document.getElementById("protein").value || "정보 없음";
   const fat = document.getElementById("fat").value || "정보 없음";
 
-  // 입력 필드 값 확인 로그 추가
-  console.log("Name:", name);
-  console.log("Calories:", calories);
-  console.log("Carbohydrates:", carbohydrates);
-  console.log("Protein:", protein);
-  console.log("Fat:", fat);
-
+  // 이미지 파일이 있는지 확인
   if (!imageFile) {
     alert("Please select an image file.");
     console.error("No image file selected.");
     return;
-  } else {
-    console.log("Image file selected:", imageFile);
   }
 
   const reader = new FileReader();
@@ -118,25 +110,17 @@ async function submitSnack(event) {
   reader.onloadend = async () => {
     const base64Image = reader.result;
 
-    if (!base64Image) {
-      console.error("Failed to encode image to Base64.");
-      return;
-    } else {
-      console.log("Base64 Image:", base64Image);
-    }
-
+    // 서버로 전송할 데이터 객체 생성
     const snackData = {
       name: name,
-      image: base64Image,
       nutritionalIngredients: {
-        칼로리: calories,
-        탄: carbohydrates,
-        단: protein,
-        지: fat,
+        칼로리: calories + " kcal",
+        탄: carbohydrates + " g",
+        단: protein + " g",
+        지: fat + "g",
       },
+      image: base64Image,
     };
-
-    console.log("Sending snack data:", snackData);
 
     try {
       const response = await fetch("http://localhost:3000/snacks", {
@@ -159,7 +143,6 @@ async function submitSnack(event) {
       alert("An error occurred while submitting the snack.");
     }
   };
-
   reader.readAsDataURL(imageFile);
 }
 

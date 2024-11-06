@@ -131,14 +131,8 @@ h1 {
 }
 
 .card-body {
+  display: flex;
   margin: 10px;
-}
-
-.card {
-  border: none;
-  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
-    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-  display: inline-block;
 }
 
 .github {
@@ -347,12 +341,16 @@ h1 a {
   background: none;
   border: none;
   cursor: pointer;
+  line-height: 1; /* 하트와 숫자의 세로 정렬을 위한 조정 */
+  margin-left: 7px;
 }
 
 .favorite-count {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: #333;
-  margin-top: 5px;
+  margin: 0;
+  font-weight: bold;
+  margin-top: -4px;
 }
 /* 행과 열을 나누는 스타일 */
 .row {
@@ -415,18 +413,6 @@ h1 a {
 }
 
 /* 카드 스타일 */
-.card {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin: 15px 0;
-  width: 100%;
-  max-width: 600px;
-}
 
 /* 이미지 스타일 */
 .card-img {
@@ -560,10 +546,10 @@ h1 a {
 }
 
 .like-container {
-  position: absolute;
-  top: 50%;
-  right: 20px; /* 카드의 오른쪽에서 20px 떨어진 위치 */
-  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: auto; /* 오른쪽 끝으로 이동 */
   text-align: center;
 }
 
@@ -575,8 +561,39 @@ h1 a {
   cursor: pointer;
 }
 
+.nutrition-info .d-flex {
+  margin-top: 10px; /* 필요한 경우 조정 */
+  font-size: 1.2em; /* 하트와 좋아요 수 크기 조정 */
+}
+.favorite-icon {
+  cursor: pointer;
+  color: #ff4444; /* 하트 색상 */
+}
 .favorite-count {
-  font-size: 1.2rem;
-  color: #333;
-  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  justify-content: space-between; /* 왼쪽 이미지와 오른쪽 좋아요 아이콘을 멀리 배치 */
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 15px 0;
+  max-width: 800px;
+  width: 100%;
+}
+
+.favorite-icon-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 세로 가운데 정렬 */
+  align-items: center; /* 가로 가운데 정렬 */
+  position: absolute;
+  right: 20px; /* 오른쪽 여백 설정 */
+  top: 50%; /* 상단 기준 중앙 배치 */
+  transform: translateY(-50%); /* 수직 중앙 정렬 */
 }

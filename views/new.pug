@@ -1,19 +1,32 @@
-form.form-inline(action="/post", method="POST")
-    label.sr-only(for="name") Name
-    .input-group.mb-2.mr-sm-2
-        .input-group-prepend
-            .input-group-text Writer
-        input#name.form-control(type="text", name="name", required="")
-    label.sr-only(for="message") Message
-    .input-group.mb-2.mr-sm-2
-        .input-group-prepend
-            .input-group-text Message
-        input#message.form-control(type="text", name="message", required="")
-    label.sr-only(for="date") Date
-    .input-group.mb-2.mr-sm-2
-        .input-group-prepend
-            .input-group-text Date
-        input#date.form-control(type="date", name="date", required="")
+form.form-inline(action="/post" method="POST" enctype="multipart/form-data")
+  .row
+    .col
+      .input-group.mb-2.mr-sm-2
+        label.input-label(for="snackName") 과자 이름*
+        input.form-control#snackName(type="text" name="snackName" required)
 
+    .col
+      .input-group.mb-2.mr-sm-2.file-input-wrapper
+        label.input-label(for="photo") 사진 첨부
+        label.custom-file-label 파일 선택
+        input#photo(type="file" name="photo")
 
-    button.btn.btn-primary.mb-2(type="submit") Pass to MongoDB
+  //- 영양 정보 필드 그룹
+  .nutrition-container(style="display: flex; justify-content: space-around; border: 2px solid #3a1e00; border-radius: 10px; padding: 10px; background-color: #fff7e6; max-width: 650px; width: 100%; box-sizing: border-box; margin: 0 auto;")
+    .nutrition-field(style="flex-basis: 22%; text-align: center;")
+      label(for="calories") 칼로리
+      input.form-control#calories(type="text" name="calories")
+
+    .nutrition-field(style="flex-basis: 22%; text-align: center;")
+      label(for="carbohydrates") 탄수화물
+      input.form-control#carbohydrates(type="text" name="carbohydrates")
+
+    .nutrition-field(style="flex-basis: 22%; text-align: center;")
+      label(for="protein") 단백질
+      input.form-control#protein(type="text" name="protein")
+
+    .nutrition-field(style="flex-basis: 22%; text-align: center;")
+      label(for="fat")   지방  
+      input.form-control#fat(type="text" name="fat")
+
+  button.btn.btn-primary.mb-2(type="submit") Pass to MongoDB

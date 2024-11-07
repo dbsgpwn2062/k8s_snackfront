@@ -27,6 +27,15 @@ html(lang="ko")
           input#password(type="password" name="password" required)
           button.btn-primary(type="submit") login
 
+    // 본문 내용: 로그인 상태에 따라 조건부로 list.pug와 new.pug를 포함
+    main.container.posts.mt-0
+      if isLoggedIn
+        include new.pug
+        include list.pug
+      else
+        p.alert.alert-info(role='alert')
+          | 로그인 후에 내용을 볼 수 있습니다.
+
     // JavaScript 코드 직접 포함
     script.
       function openModal() {
@@ -86,4 +95,7 @@ html(lang="ko")
           loginButton.textContent = "LOGIN";
           loginButton.setAttribute("onclick", "openModal()");
         }
+
+        // 로그인 상태를 Pug에서 사용할 수 있도록 변수 설정
+        window.isLoggedIn = isLoggedIn;
       });

@@ -43,9 +43,9 @@ app.get("/", async (req, res) => {
   try {
     const response = await axios.get(SNACK_URI);
     const snacks = response.data;
-    const isUserLoggedIn = req.cookies.user === "true";
+    const isLoggedIn = req.cookies.user === "true";
 
-    res.render("home", { snacks, user: isUserLoggedIn });
+    res.render("home", { snacks, user: isLoggedIn });
   } catch (error) {
     console.error("Error fetching snacks:", error);
     res.render("home", { snacks: [], user: false });

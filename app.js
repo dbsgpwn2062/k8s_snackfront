@@ -68,7 +68,8 @@ app.get("/", async (req, res) => {
 */
 // 로그인 요청을 처리하는 라우트 추가
 app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
+  const username = req.body.username.trim(); // 공백 제거
+  const password = req.body.password.trim(); // 공백 제거
 
   try {
     const response = await axios.get(BACKEND_URI, {

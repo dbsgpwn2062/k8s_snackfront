@@ -87,7 +87,6 @@ app.post("/logout", (req, res) => {
 // 과자 추가 요청 처리
 app.post("/post", async (req, res) => {
   const { name, nutritionalIngredients, image } = req.body;
-  console.log(req.body);
 
   try {
     // back_snack 서비스로 POST 요청 보내기

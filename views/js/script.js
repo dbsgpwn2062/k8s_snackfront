@@ -1,6 +1,16 @@
 const GUESTBOOK_API_ADDR = process.env.GUESTBOOK_API_ADDR;
-const BACKEND_URI = "http://back_snack:3000/users/login";
+const BACKEND_URI = `http://${GUESTBOOK_API_ADDR}/users/login`;
+const PORT = process.env.PORT || 3001;
 
+// 환경 변수 체크
+if (!GUESTBOOK_API_ADDR) {
+  console.error("GUESTBOOK_API_ADDR environment variable is not defined");
+  throw new Error("GUESTBOOK_API_ADDR environment variable is not defined");
+}
+if (!process.env.PORT) {
+  console.error("PORT environment variable is not defined");
+  throw new Error("PORT environment variable is not defined");
+}
 // 모달 열기
 function openModal() {
   document.getElementById("loginModal").style.display = "block";

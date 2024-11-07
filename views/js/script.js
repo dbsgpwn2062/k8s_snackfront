@@ -29,24 +29,25 @@ window.logout = logout;
 
 // 로그인 제출 함수
 
-// script.js
-
 async function submitLogin(event) {
-  event.preventDefault(); // 기본 폼 제출 동작 방지
+  event.preventDefault();
 
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
+  console.log("Username:", username); // 입력된 사용자 이름 확인
+  console.log("Password:", password); // 입력된 비밀번호 확인
 
   try {
     const response = await axios.get(BACKEND_URI, {
       params: { userName: username, userPass: password },
       withCredentials: true,
     });
+    console.log("Response data:", response.data); // 응답 데이터 출력
 
     if (response.data.num) {
       showAlert("로그인 성공!", true);
       closeModal();
-      location.reload(); // 페이지 새로고침하여 쿠키 기반 로그인 상태 반영
+      location.reload();
     } else {
       showAlert("로그인 실패. 다시 시도해 주세요.", false);
     }
@@ -56,8 +57,6 @@ async function submitLogin(event) {
   }
 }
 
-// 전역으로 설정하여 HTML에서 접근할 수 있도록 함
-window.submitLogin = submitLogin;
 
 
 

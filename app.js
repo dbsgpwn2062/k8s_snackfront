@@ -9,7 +9,7 @@ const cookieParser = require("cookie-parser");
 const util = require("./utils");
 
 const GUESTBOOK_API_ADDR = process.env.GUESTBOOK_API_ADDR;
-const BACKEND_URI = `${GUESTBOOK_API_ADDR}/snacks`;
+const BACKEND_URI = `http://${GUESTBOOK_API_ADDR}/snacks`;
 const PORT = process.env.PORT || 3001;
 
 // 환경 변수 체크

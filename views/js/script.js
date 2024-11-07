@@ -44,29 +44,29 @@ async function submitLogin(event) {
 
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
-  console.log("Username:", username); // 입력된 사용자 이름 확인
-  console.log("Password:", password); // 입력된 비밀번호 확인
 
   try {
-    const response = await axios.get(BACKEND_URI, {
-      params: { userName: username, userPass: password },
-      withCredentials: true,
+    const response = await fetch("/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
     });
-    console.log("Response data:", response.data); // 응답 데이터 출력
 
-    if (response.data.num) {
+    const result = await response.json();
+    if (response.ok) {
       showAlert("로그인 성공!", true);
       closeModal();
-      location.reload();
+      location.reload(); // 페이지 새로고침하여 쿠키 기반 로그인 상태 반영
     } else {
-      showAlert("로그인 실패. 다시 시도해 주세요.", false);
+      showAlert(result.message, false);
     }
   } catch (error) {
     console.log("로그인 요청 중 오류 발생:", error);
     showAlert("서버 오류. 나중에 다시 시도해 주세요.", false);
   }
 }
-
 
 
 

@@ -164,7 +164,7 @@ async function submitSnack(event) {
   };
   reader.readAsDataURL(imageFile);
 }
-
+/*
 async function likeSnack(snackName) {
   try {
     const response = await fetch("/like-snack", {
@@ -187,4 +187,5 @@ async function likeSnack(snackName) {
     alert("An error occurred while liking the snack.");
   }
 }
+*/
 

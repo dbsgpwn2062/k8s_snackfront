@@ -1,3 +1,4 @@
+
 doctype html
 html(lang="ko")
   head
@@ -27,37 +28,13 @@ html(lang="ko")
           button.btn-primary(type="submit") login
 
     // 본문 내용
-main.container.posts.mt-0
-  if user && snacks.length > 0
-    .container
-      each snack in snacks
-        if snack.name
-          .card.my-3.col-12
-            .card-body
-              .row
-                .col-4
-                  - const base64Image = snack.image
-                  img.card-img(src=base64Image, alt=snack.name)
-                .col-6
-                  .snack-title
-                    h5= snack.name
-                  .nutrition-info
-                    if snack["nutritionalIngredients"]
-                      - const ingredients = snack["nutritionalIngredients"];
-                      if ingredients["칼로리"]
-                        p.cal 칼로리: #{ingredients["칼로리"]}
-                      if ingredients["탄"] || ingredients["단"] || ingredients["지"]
-                        p.nutri 영양 성분:
-                        |  탄수화물: #{ingredients["탄"] || '정보 없음'}, 단백질: #{ingredients["단"] || '정보 없음'}, 지방: #{ingredients["지"] || '정보 없음'}
-                    else
-                      p.alert.alert-info 영양 성분 정보가 없습니다.
-                .col-2.d-flex.justify-content-center.align-items-center
-                  .favorite-icon-container
-                    button.favorite-icon(onclick=`likeSnack('${snack.name}')`) ♥
-                    p.favorite-count #{snack.required || 0}
-  else
-    p.alert.alert-info(role='alert') 현재 데이터가 없습니다.
-
+    main.container.posts.mt-0
+      if user
+        include new.pug
+        include list.pug
+      else
+        p.alert.alert-info(role='alert')
+          | 로그인 후에 내용을 볼 수 있습니다.
 
     // JavaScript 파일 포함
     script(src="/js/script.js")

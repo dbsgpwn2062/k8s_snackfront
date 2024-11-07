@@ -41,15 +41,11 @@ const upload = multer({ dest: "uploads/" });
 // 홈 페이지 라우트에서 스낵 데이터를 가져와서 렌더링
 app.get("/", async (req, res) => {
   try {
-    const isUserLoggedIn = req.cookies.user === "true"; // 로그인 상태 확인
-    let snacks = []; // 기본적으로 빈 배열 설정
+    const response = await axios.get(SNACK_URI);
+    const snacks = response.data;
+    const isUserLoggedIn = req.cookies.user === "true";
 
-    if (isUserLoggedIn) {
-      const response = await axios.get(SNACK_URI); // 로그인된 경우에만 데이터 가져오기
-      snacks = response.data;
-    }
-
-    res.render("home", { snacks, user: isUserLoggedIn }); // 로그인 상태에 따라 snacks 전달
+    res.render("home", { snacks, user: isUserLoggedIn });
   } catch (error) {
     console.error("Error fetching snacks:", error);
     res.render("home", { snacks: [], user: false });

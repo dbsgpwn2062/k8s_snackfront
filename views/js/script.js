@@ -1,5 +1,5 @@
 const GUESTBOOK_API_ADDR = process.env.GUESTBOOK_API_ADDR;
-const BACKEND_URI = `http://${GUESTBOOK_API_ADDR}/users/login`;
+const BACKEND_URI = `http://back_snack:3000/users/login`;
 
 // 모달 열기
 function openModal() {

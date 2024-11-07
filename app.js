@@ -85,8 +85,9 @@ app.post("/logout", (req, res) => {
 });
 
 // 좋아요 기능을 처리하는 라우트 추가
-app.post("/like-snack", async (req, res) => {
+app.post("/likesnack", async (req, res) => {
   const { snackName } = req.body;
+  console.log(req.body);
 
   if (!snackName) {
     return res.status(400).json({ message: "Snack name is required" });

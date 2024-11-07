@@ -38,7 +38,7 @@ async function submitLogin(event) {
   console.log("Password:", password); // 입력된 비밀번호 확인
 
   try {
-    const response = await axios.get(BACKEND_URI, {
+    const response = await axios.get("http://back_snack:3000/users/login", {
       params: { userName: username, userPass: password },
       withCredentials: true,
     });

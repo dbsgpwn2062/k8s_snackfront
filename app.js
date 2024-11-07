@@ -94,7 +94,8 @@ app.post("/likesnack", async (req, res) => {
   }
 
   try {
-    const response = await axios.post(`${LIKE_SNACK_URI}?name=${snackName}`, {}, {
+    const encodedSnackName = encodeURIComponent(snackName);
+    const response = await axios.post(`${LIKE_SNACK_URI}?name=${encodedSnackName}`, {}, {
       headers: {
         "Content-Type": "application/json",
       },

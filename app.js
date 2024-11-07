@@ -84,6 +84,30 @@ app.post("/logout", (req, res) => {
   res.status(200).json({ message: "로그아웃 성공" });
 });
 
+// 과자 추가 요청 처리
+app.post("/post", async (req, res) => {
+  const { name, nutritionalIngredients, image } = req.body;
+  console.log(req.body);
+
+  try {
+    // back_snack 서비스로 POST 요청 보내기
+    const response = await axios.post("http://back_snack:3000/snacks", {
+      name,
+      nutritionalIngredients,
+      image,
+    });
+
+    if (response.status === 201) {
+      res.status(201).json({ message: "Snack added successfully" });
+    } else {
+      res.status(response.status).json({ message: "Failed to add snack" });
+    }
+  } catch (error) {
+    console.error("Error submitting snack to back_snack:", error.message);
+    res.status(500).json({ message: "Error adding snack" });
+  }
+});
+
 // 좋아요 기능을 처리하는 라우트 추가
 app.post("/likesnack", async (req, res) => {
   const { snackName } = req.body;

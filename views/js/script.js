@@ -48,7 +48,7 @@ async function submitLogin(event) {
   console.log("Password:", password); // 입력된 비밀번호 확인
 
   try {
-    const response = await axios.get("http://172.18.0.3:3000/users/login", {
+    const response = await axios.get(BACKEND_URI, {
       params: { userName: username, userPass: password },
       withCredentials: true,
     });

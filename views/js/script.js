@@ -167,19 +167,16 @@ async function submitSnack(event) {
 
 async function likeSnack(snackName) {
   try {
-    const response = await fetch(
-      `back_snack:3000/snacks/required?name=${snackName}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch("/like-snack", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ snackName }),
+    });
 
     if (response.ok) {
-      // 서버에서 성공적으로 처리한 경우, 페이지를 새로고침하여 업데이트 반영
-      location.reload();
+      location.reload(); // 페이지 새로고침하여 업데이트 반영
     } else {
       console.error("Failed to like snack");
       const errorData = await response.json();
@@ -190,3 +187,4 @@ async function likeSnack(snackName) {
     alert("An error occurred while liking the snack.");
   }
 }
+

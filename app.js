@@ -9,6 +9,8 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const GUESTBOOK_API_ADDR = process.env.GUESTBOOK_API_ADDR;
 const BACKEND_URI = `http://${GUESTBOOK_API_ADDR}/users/login`;
+const SNACK_URI = `http://${GUESTBOOK_API_ADDR}/snacks`;
+const LIKE_SNACK_URI = `http://${GUESTBOOK_API_ADDR}/snacks/required`;
 const PORT = process.env.PORT || 3001;
 
 // 환경 변수 체크
@@ -39,7 +41,7 @@ const upload = multer({ dest: "uploads/" });
 // 홈 페이지 라우트에서 스낵 데이터를 가져와서 렌더링
 app.get("/", async (req, res) => {
   try {
-    const response = await axios.get(`http://${GUESTBOOK_API_ADDR}/snacks`);
+    const response = await axios.get(SNACK_URI);
     const snacks = response.data;
     const isUserLoggedIn = req.cookies.user === "true";
 
@@ -80,6 +82,32 @@ app.post("/login", async (req, res) => {
 app.post("/logout", (req, res) => {
   res.clearCookie("user");
   res.status(200).json({ message: "로그아웃 성공" });
+});
+
+// 좋아요 기능을 처리하는 라우트 추가
+app.post("/like-snack", async (req, res) => {
+  const { snackName } = req.body;
+
+  if (!snackName) {
+    return res.status(400).json({ message: "Snack name is required" });
+  }
+
+  try {
+    const response = await axios.post(`${LIKE_SNACK_URI}?name=${snackName}`, {}, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status === 200) {
+      res.status(200).json({ message: `Successfully liked ${snackName}` });
+    } else {
+      res.status(response.status).json({ message: "Failed to like snack" });
+    }
+  } catch (error) {
+    console.error("Error liking snack:", error);
+    res.status(500).json({ message: "An error occurred while liking the snack." });
+  }
 });
 
 // 서버 시작

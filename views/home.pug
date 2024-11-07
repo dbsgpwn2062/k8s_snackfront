@@ -27,10 +27,17 @@ html(lang="ko")
           input#password(type="password" name="password" required)
           button.btn-primary(type="submit") login
 
-    // 본문 내용이 추가될 컨테이너
-    main.container.posts.mt-0(id="contentContainer")
-      p.alert.alert-info(role='alert' id="loginAlert")
-        | 로그인 후에 내용을 볼 수 있습니다.
+    // 본문 내용: 로그인 상태에 따라 조건부로 list.pug와 new.pug를 포함
+    main.container.posts.mt-0
+      // 로그인 필요 콘텐츠 (미리 포함된 상태)
+      .content-section(id="privateContent")
+        include new.pug
+        include list.pug
+      
+      // 로그인하지 않은 사용자에게 보일 메시지
+      .alert-section(id="loginPrompt")
+        p.alert.alert-info(role='alert')
+          | 로그인 후에 내용을 볼 수 있습니다.
 
     // JavaScript 코드 직접 포함
     script.
@@ -75,7 +82,7 @@ html(lang="ko")
         }
       }
 
-      // 페이지 로드 시 쿠키를 통해 로그인 상태 확인 및 버튼 설정
+      // 페이지 로드 시 쿠키를 통해 로그인 상태 확인 및 콘텐츠 표시 제어
       window.addEventListener("load", () => {
         const cookieValue = document.cookie
           .split("; ")
@@ -84,40 +91,19 @@ html(lang="ko")
 
         const isLoggedIn = cookieValue === "true";
         const loginButton = document.getElementById("loginButton");
+        const privateContent = document.getElementById("privateContent");
+        const loginPrompt = document.getElementById("loginPrompt");
+
+        // 로그인 여부에 따라 버튼과 콘텐츠 표시 제어
         if (isLoggedIn) {
           loginButton.textContent = "LOGOUT";
           loginButton.setAttribute("onclick", "logout()");
-
-          // 로그인 상태일 때 콘텐츠 추가
-          document.getElementById("loginAlert").style.display = "none";
-
-          // new.pug와 list.pug의 내용을 JavaScript로 동적으로 추가
-          document.getElementById("contentContainer").innerHTML += `
-            <div>
-              <!-- new.pug의 내용 -->
-              <form class="form-inline" action="/post" method="POST" enctype="multipart/form-data" id="snackForm">
-                <div class="row">
-                  <div class="col">
-                    <label for="snackName">과자 이름*</label>
-                    <input type="text" id="snackName" name="snackName" required>
-                  </div>
-                  <div class="col">
-                    <label for="photo">사진 첨부</label>
-                    <input type="file" id="photo" name="photo">
-                  </div>
-                </div>
-              </form>
-              <!-- list.pug의 내용 -->
-              <div class="card my-3 col-12">
-                <div class="card-body">
-                  <h5>과자 리스트</h5>
-                  <p>여기에 과자 리스트가 표시됩니다.</p>
-                </div>
-              </div>
-            </div>
-          `;
+          privateContent.style.display = "block";
+          loginPrompt.style.display = "none";
         } else {
           loginButton.textContent = "LOGIN";
           loginButton.setAttribute("onclick", "openModal()");
+          privateContent.style.display = "none";
+          loginPrompt.style.display = "block";
         }
       });

@@ -1,18 +1,40 @@
 doctype html
-html
-    head
-        meta(charset='utf-8')
-        title Welcome myworld
-        meta(name='viewport', content='width=device-width, initial-scale=1')
-        link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css', integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T', crossorigin='anonymous')
-        link(rel='stylesheet', href='css/style.css')
-        link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Consolas')
-    body
-        .header
-            .container
-                h1 
-                    a(href='/') Now is your chance.
-                a(href='http://dshub.cloud').text-muted Myhome : DATASTORY.HUB
-        .container.posts.mt-0
-            include new.pug
-            include list.pug
+html(lang="ko")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Today's Snack
+    link(href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap" rel="stylesheet")
+    link(rel="stylesheet" href="/css/style.css")
+    script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+
+  body
+    .header
+      h1.logo Rapa
+      h2.title Today's Snack
+      button.login-button(onclick=isLoggedIn ? "logout()" : "openModal()")= isLoggedIn ? "LOGOUT" : "LOGIN"
+
+    // 로그인 모달
+    #loginModal.modal
+      .modal-content
+        span.close(onclick="closeModal()") &times;
+        h2.centered LOGIN
+        form(onsubmit="submitLogin(event)")
+          label(for="username") Username:
+          input#username(type="text" name="username" required)
+          label(for="password") Password:
+          input#password(type="password" name="password" required)
+          button.btn-primary(type="submit") login
+
+    // 본문 내용
+    main.container.posts.mt-0
+      if user
+        include new.pug
+        include list.pug
+      else
+        p.alert.alert-info(role='alert')
+          | 현재 데이터가 없습니다.
+
+    // JavaScript 파일 포함
+    script(src="/js/script.js")
+

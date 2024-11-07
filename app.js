@@ -1,89 +1,60 @@
-const express = require('express')
-const path = require('path');
+require("dotenv").config();
+const express = require("express");
+const path = require("path");
 const app = express();
-const bodyParser = require('body-parser')
-const axios = require('axios')
+const bodyParser = require("body-parser");
+const axios = require("axios");
+const multer = require("multer");
+const cookieParser = require("cookie-parser");
+const util = require("./utils");
 
-const util = require('./utils')
+const GUESTBOOK_API_ADDR = process.env.GUESTBOOK_API_ADDR;
+const BACKEND_URI = `${GUESTBOOK_API_ADDR}/snacks`;
+const PORT = process.env.PORT || 3001;
 
-const GUESTBOOK_API_ADDR = process.env.GUESTBOOK_API_ADDR
-
-const BACKEND_URI = `http://${GUESTBOOK_API_ADDR}/messages`
-
-app.set("view engine", "pug")
-app.set("views", path.join(__dirname, "views"))
-
-const router = express.Router()
-app.use(router)
-
-app.use(express.static('public'))
-router.use(bodyParser.urlencoded({ extended: false }))
-
-// Application will fail if environment variables are not set
-if(!process.env.PORT) {
-  const errMsg = "PORT environment variable is not defined"
-  console.error(errMsg)
-  throw new Error(errMsg)
+// 환경 변수 체크
+if (!GUESTBOOK_API_ADDR) {
+  console.error("GUESTBOOK_API_ADDR environment variable is not defined");
+  throw new Error("GUESTBOOK_API_ADDR environment variable is not defined");
+}
+if (!process.env.PORT) {
+  console.error("PORT environment variable is not defined");
+  throw new Error("PORT environment variable is not defined");
 }
 
-if(!process.env.GUESTBOOK_API_ADDR) {
-  const errMsg = "GUESTBOOK_API_ADDR environment variable is not defined"
-  console.error(errMsg)
-  throw new Error(errMsg)
-}
+// 설정
+app.set("view engine", "pug");
+app.set("views", path.join(__dirname, "views"));
 
-// Starts an http server on the $PORT environment variable
-const PORT = process.env.PORT;
+// 미들웨어 설정
+app.use("/js", express.static(path.join(__dirname, "views/js")));
+app.use(express.static(path.join(__dirname, "public")));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
+
+// 파일 업로드 설정
+const upload = multer({ dest: "uploads/" });
+
+// 홈 페이지 라우트에서 스낵 데이터를 가져와서 렌더링
+app.get("/", async (req, res) => {
+  try {
+    const response = await axios.get(BACKEND_URI);
+    const snacks = response.data;
+    const isUserLoggedIn = req.cookies.user === "true";
+
+    console.log("User Logged In:", isUserLoggedIn);
+    console.log("Snacks Data:", snacks);
+
+    res.render("home", { snacks, user: isUserLoggedIn });
+  } catch (error) {
+    console.error("Error fetching snacks:", error);
+    res.render("home", { snacks: [], user: false });
+  }
+});
+
+// 서버 시작
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
-  console.log('Press Ctrl+C to quit.');
-});
-
-// Handles GET request to /
-router.get("/", (req, res) => {
-    // retrieve list of messages from the backend, and use them to render the HTML template
-    axios.get(BACKEND_URI)
-      .then(response => {
-        console.log(`response from ${BACKEND_URI}: ` + response.status)
-        const result = util.formatMessages(response.data)
-        res.render("home", {messages: result})
-      }).catch(error => {
-        console.error('error: ' + error)
-    })
-});
-
-// Handles POST request to /post
-router.post('/post', (req, res) => {
-  console.log(`received request: ${req.method} ${req.url}`)
-
-  // validate request
-  const name = req.body.name
-  const message = req.body.message
-  const date = req.body.date
-  if (!name || name.length == 0) {
-    res.status(400).send("name is not specified")
-    return
-  }
-
-  if (!message || message.length == 0) {
-    res.status(400).send("message is not specified")
-    return
-  }
-  
-  if (!date || date.length == 0) {
-    res.status(400).send("date is not specified")
-    return
-  }
-  // send the new message to the backend and redirect to the homepage
-  console.log(`posting to ${BACKEND_URI}- name: ${name} body: ${message} date: ${date}`)
-  axios.post(BACKEND_URI, {
-    name: name,
-    body: message,
-    date: date
-  }).then(response => {
-      console.log(`response from ${BACKEND_URI}` + response.status)
-      res.redirect('/')
-  }).catch(error => {
-      console.error('error: ' + error)
-  })
 });

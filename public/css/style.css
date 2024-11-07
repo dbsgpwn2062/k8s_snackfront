@@ -1,111 +1,599 @@
+/* 전체 레이아웃 설정 */
 body {
-    font-family: 'Roboto', sans-serif;
-    background: #f8f9fa;
+  font-family: "Roboto", sans-serif;
+  background-color: #f3f0eb;
+  color: #3d2b1f;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+/* 헤더 스타일 */
+.header {
+  text-align: center;
+  padding: 40px 0;
+  background-color: #f3f0eb;
+  border-bottom: 2px solid #ddd;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto; /* 페이지 가운데 정렬 */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 수직 방향으로 중앙 정렬 */
+}
+
+.logo {
+  font-size: 4rem; /* 크기 증가 */
+  font-family: "Georgia", serif;
+  color: #3d2b1f;
+  font-weight: 700;
+  margin: 0;
+}
+
+.title {
+  font-size: 2.5rem; /* 크기 증가 */
+  font-weight: 700;
+  color: #3d2b1f;
+  background-color: #f3f0eb;
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+/* 로그인 버튼 */
+/* 로그인 버튼 */
+.login-button {
+  font-size: 1rem;
+  color: #ffffff;
+  background-color: #3d2b1f;
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  position: absolute;
+  top: 20px;
+  right: 30px;
+}
+.login-button:hover {
+  background-color: #2b1f16;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* 본문 스타일 */
 .container {
-    margin-top: 50px;
-    background: white;
-    border-radius: 10px;
-    z-index: 10;
-    position: relative;
-    padding: 50px 16px;
+  max-width: 700px; /* 최대 너비 증가 */
+  width: 90%;
+  padding: 40px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
 }
 
-.next-logo {
-    position: absolute;
-    right: 0;
-    top: 0;
-    opacity: 0.5;
-    z-index: -1;
-    width: 30%
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
 }
 
+.input-group .input-group-text {
+  background-color: #f3f0eb;
+  color: #3d2b1f;
+  border: none;
+}
+
+.form-control {
+  border: 1px solid #ddd;
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 1.1rem; /* 폰트 크기 증가 */
+}
+
+.btn-primary {
+  background-color: #3d2b1f;
+  color: #ffffff;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 1.2rem; /* 폰트 크기 증가 */
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.btn-primary:hover {
+  background-color: #2b1f16;
+}
+
+/* a 태그 호버 효과 제거 */
 a:hover {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .header .container {
-    background: none;
+  background: none;
 }
 
 .form-inline {
-    margin-bottom: 40px;
+  margin-bottom: 40px;
 }
 
 h1 {
-    margin-bottom: 2rem;
-    max-width: 1140px;
-    margin: auto;
-    padding-bottom: 16px;
-    position: relative;
+  margin-bottom: 2rem;
+  max-width: 1140px;
+  margin: auto;
+  padding-bottom: 16px;
+  position: relative;
 }
 
 .card-body {
-    margin: 10px;
-}
-  
-.posts:after {
-    background: linear-gradient(to right, #4285f4 25%,#db4437 25%, #db4437 50%, #f4b400 50%, #f4b400 75%, #0f9d58 75%);
-    position: absolute;
-    content: '';
-    height: 4px;
-    right: 0;
-    left: 0;
-    top: 0;
-}
-
-.card {
-    border: none;
-    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-    display: inline-block;
+  display: flex;
+  margin: 10px;
 }
 
 .github {
-    max-width: 80px;
-    opacity: 0.5;
+  max-width: 80px;
+  opacity: 0.5;
 }
 
 .github:hover {
-    opacity: 1;
+  opacity: 1;
 }
 
 h5 {
-    font-size: 24px;
-    float: left;
+  font-size: 24px;
+  float: left;
 }
 
 h6 {
-    font-size: 14px;
-    color: black;
-    float: right;
+  font-size: 14px;
+  color: black;
+  float: right;
 }
 
 p {
-    font-size: 14px;
-    color: #646464;
-    margin-top: 1rem !important;
+  font-size: 14px;
+  color: #646464;
+  margin-top: 1rem !important;
 }
 
 h1 a {
-    color: #202124;
-    font-size: 60px;
+  color: #202124;
+  font-size: 60px;
 }
 
-.header {
-    margin: 0;
-    position: relative;
-}
-
-@media (min-width: 1200px) {
-    .container {
-        max-width: 900px;
-        padding: 50px;
-    }
+/* 미디어 쿼리 */
+@media (max-width: 768px) {
+  .logo {
+    font-size: 3rem;
+  }
+  .title {
+    font-size: 2rem;
+  }
+  .container {
+    padding: 20px;
+  }
 }
 
 @media (max-width: 480px) {
-    h1 a {
-        font-size: 40px;
-    }
+  .logo {
+    font-size: 2.5rem;
+  }
+  .title {
+    font-size: 1.8rem;
+  }
+  .login-button {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+    top: 15px;
+    right: 20px;
+  }
+}
+/* 모달 창 스타일 */
+.modal {
+  display: none; /* 기본적으로 숨김 */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4); /* 어두운 배경 */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 10% auto; /* 화면에서 더 아래에 위치하게 조정 */
+  padding: 30px;
+  border: none;
+  width: 90%;
+  max-width: 300px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* 닫기 버튼 스타일 */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+}
+
+/* 모달 내부의 타이틀 스타일 */
+.modal-content h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #3d2b1f;
+}
+
+/* 입력 필드와 버튼 간격 설정 */
+.modal-content label {
+  display: block;
+  margin-top: 10px;
+  font-weight: 600;
+  color: #5a4a3b;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+/* 로그인 버튼 스타일 */
+.modal-content .btn-primary {
+  width: 100%;
+  padding: 12px;
+  background-color: #3d2b1f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-content .btn-primary:hover {
+  background-color: #2b1f16;
+}
+
+/* 로그인 알림 스타일 */
+.login-alert {
+  position: fixed; /* 화면의 고정된 위치에 표시 */
+  top: 10%;
+  right: 10%;
+  transform: translateY(-50%);
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
+  z-index: 1000;
+  opacity: 0.9;
+  max-width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.login-alert-success {
+  background-color: #4caf50;
+}
+
+.login-alert-danger {
+  background-color: #f44336;
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.snack-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-right: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.snack-info {
+  flex: 1;
+}
+
+.snack-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.nutrition-info {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.favorite {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: auto;
+}
+
+.favorite-icon {
+  font-size: 1.5rem;
+  color: #e63946;
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 1; /* 하트와 숫자의 세로 정렬을 위한 조정 */
+  margin-left: 7px;
+}
+
+.favorite-count {
+  font-size: 0.8rem;
+  color: #333;
+  margin: 0;
+  font-weight: bold;
+  margin-top: -4px;
+}
+/* 행과 열을 나누는 스타일 */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.col {
+  flex: 1;
+  min-width: 200px; /* 각 칼럼의 최소 너비 */
+}
+
+/* 과자 이름과 사진 첨부 필드의 높이와 너비 조정 */
+.row .col .form-control {
+  height: 35px; /* 필드 높이를 동일하게 설정 */
+  box-sizing: border-box; /* 여백 문제 해결 */
+  width: 100%; /* 동일한 너비 설정 */
+}
+
+/* 파일 선택 버튼과 텍스트 정렬을 위한 스타일 */
+.file-input-wrapper {
+  position: relative;
+}
+
+.file-input-wrapper input[type="file"] {
+  opacity: 0; /* 기본 파일 선택 버튼 숨기기 */
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.custom-file-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #fff;
+  color: #495057;
+  font-size: 14px;
+}
+
+.row .col:first-child .form-control {
+  margin-top: 7px; /* 필요에 따라 값을 조정하여 위치 조정 */
+}
+
+/* 컨테이너 설정 */
+/* 전체 카드 레이아웃 설정 */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+/* 카드 스타일 */
+
+/* 이미지 스타일 */
+.card-img {
+  width: 200px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 20px;
+  border: 1px solid #ddd;
+}
+
+/* 카드 제목 스타일 */
+.card-title {
+  font-size: 1.8em; /* 제목 크기 */
+  margin-bottom: 10px; /* 제목과 내용 사이의 간격을 줄임 */
+  color: #2c3e50; /* 제목 색상 */
+  font-weight: bold; /* 제목을 굵게 */
+  text-align: left; /* 왼쪽 정렬 */
+  margin-top: 10px; /* 카드의 상단에서의 간격 */
+}
+
+/* 영양성분 텍스트 스타일 */
+.card-text {
+  font-size: 1.2em;
+  color: #555;
+  margin: 5px 0;
+}
+
+/* 영양성분 강조 스타일 */
+.card-nutrition {
+  background-color: #f9f9f9; /* 배경색 추가 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  padding: 10px; /* 내부 여백 */
+  margin-top: 15px; /* 위쪽 여백 */
+  border: 1px solid #ddd; /* 테두리 추가 */
+}
+
+/* 영양성분 텍스트 스타일 */
+.snack-title {
+  font-size: 1.5rem; /* 제목 크기 조정 */
+  font-weight: bold; /* 제목을 굵게 */
+  margin: 0;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  /* 기본 여백 제거 */
+}
+
+/* 영양성분 스타일 */
+.nutrition-info {
+  margin: 5px 0; /* 각 텍스트 간격 */
+  font-size: 0.8em; /* 텍스트 크기 */
+  color: #e67e22; /* 강조 색상으로 변경 */
+  line-height: 1.5;
+  font-weight: bold; /* 줄 간격 */
+}
+
+.nutri {
+  margin: 5px 0; /* 각 텍스트 간격 */
+  font-size: 1 em; /* 텍스트 크기 */
+  color: #e67e22; /* 강조 색상으로 변경 */
+  line-height: 1.5;
+  font-weight: bold; /* 줄 간격 */
+}
+
+/* 각 영양 성분을 강조 */
+.nutrition-info p {
+  margin: 5px 0; /* 각 영양 성분 간격 */
+}
+
+.nutrition-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+.nutrition-row span {
+  font-weight: bold;
+  color: #e67e22;
+}
+
+/* 반응형 설정 */
+@media (max-width: 768px) {
+  .card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .card-img {
+    margin: 0 0 15px 0;
+  }
+}
+
+.nutrition-container {
+  display: flex;
+  justify-content: space-around;
+  border: 2px solid #3a1e00;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #fff7e6;
+  max-width: 650px; /* .container보다 작게 설정 */
+  width: 100%;
+  box-sizing: border-box; /* padding 포함 너비 조절 */
+  margin: 20px auto; /* 가운데 정렬 */
+}
+
+.nutrition-container .nutrition-field {
+  flex-basis: 22%; /* 각 필드의 너비를 균등하게 */
+  text-align: center;
+}
+
+.nutrition-container label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.nutrition-container .col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.nutrition-container input {
+  width: 70px;
+  padding: 5px;
+  text-align: center;
+  margin-top: 5px;
+}
+
+.like-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: auto; /* 오른쪽 끝으로 이동 */
+  text-align: center;
+}
+
+.favorite-icon {
+  font-size: 2rem;
+  color: #e63946;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.nutrition-info .d-flex {
+  margin-top: 10px; /* 필요한 경우 조정 */
+  font-size: 1.2em; /* 하트와 좋아요 수 크기 조정 */
+}
+.favorite-icon {
+  cursor: pointer;
+  color: #ff4444; /* 하트 색상 */
+}
+.favorite-count {
+  margin-left: 5px;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  justify-content: space-between; /* 왼쪽 이미지와 오른쪽 좋아요 아이콘을 멀리 배치 */
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 15px 0;
+  max-width: 800px;
+  width: 100%;
+}
+
+.favorite-icon-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 세로 가운데 정렬 */
+  align-items: center; /* 가로 가운데 정렬 */
+  position: absolute;
+  right: 20px; /* 오른쪽 여백 설정 */
+  top: 50%; /* 상단 기준 중앙 배치 */
+  transform: translateY(-50%); /* 수직 중앙 정렬 */
 }

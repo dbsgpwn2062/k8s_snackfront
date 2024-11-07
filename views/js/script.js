@@ -28,39 +28,11 @@ function logout() {
 window.logout = logout;
 
 // 로그인 제출 함수
-document.addEventListener("DOMContentLoaded", function () {
-  // 로그인 버튼에 이벤트 리스너 추가
-  const loginButton = document.getElementById("loginButton"); // 로그인 버튼의 ID를 지정
-  loginButton.addEventListener("click", async function (event) {
-    event.preventDefault();
 
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+// script.js
 
-    try {
-      const response = await axios.get(BACKEND_URI, {
-        params: { userName: username, userPass: password },
-        withCredentials: true,
-      });
-
-      if (response.data.num) {
-        // 로그인 성공 시 알림 표시
-        showAlert("로그인 성공!", true);
-        closeModal(); // 모달 닫기
-        location.reload(); // 페이지 새로고침하여 로그인 상태 갱신
-      } else {
-        showAlert("로그인 실패. 다시 시도해 주세요.", false);
-      }
-    } catch (error) {
-      console.log("로그인 요청 중 오류 발생:", error);
-      showAlert("서버 오류. 나중에 다시 시도해 주세요.", false);
-    }
-  });
-});
-
-/*
 async function submitLogin(event) {
-  event.preventDefault();
+  event.preventDefault(); // 기본 폼 제출 동작 방지
 
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
@@ -72,7 +44,6 @@ async function submitLogin(event) {
     });
 
     if (response.data.num) {
-      // 로그인 성공 시 페이지 새로고침하여 쿠키 반영
       showAlert("로그인 성공!", true);
       closeModal();
       location.reload(); // 페이지 새로고침하여 쿠키 기반 로그인 상태 반영
@@ -84,7 +55,11 @@ async function submitLogin(event) {
     showAlert("서버 오류. 나중에 다시 시도해 주세요.", false);
   }
 }
-*/
+
+// 전역으로 설정하여 HTML에서 접근할 수 있도록 함
+window.submitLogin = submitLogin;
+
+
 
 // 알림 표시 함수
 function showAlert(message, type) {

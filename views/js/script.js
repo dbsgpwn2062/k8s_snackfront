@@ -32,7 +32,7 @@ async function submitLogin(event) {
   const password = document.getElementById("password").value;
 
   try {
-    const response = await axios.get("http://localhost:3000/users/login", {
+    const response = await axios.get("back_snack:3000/users/login", {
       params: { userName: username, userPass: password },
       withCredentials: true,
     });
@@ -123,7 +123,7 @@ async function submitSnack(event) {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/snacks", {
+      const response = await fetch("back_snack:3000/snacks", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -149,7 +149,7 @@ async function submitSnack(event) {
 async function likeSnack(snackName) {
   try {
     const response = await fetch(
-      `http://localhost:3000/snacks/required?name=${snackName}`,
+      `back_snack:3000/snacks/required?name=${snackName}`,
       {
         method: "POST",
         headers: {

@@ -53,31 +53,6 @@ app.get("/", async (req, res) => {
     res.render("home", { snacks: [], user: false });
   }
 });
-/*
-// POST 요청을 처리하여 새로운 스낵 추가
-app.post("/post", (req, res) => {
-  console.log(req.body);
-  const { name, nutritionalIngredients, image } = req.body;
-
-  if (!name || name.length === 0) {
-    return res.status(400).send("과자 이름을 입력하세요.");
-  }
-
-  axios
-    .post(BACKEND_URI, {
-      name: name,
-      nutritionalIngredients: nutritionalIngredients,
-      image: image,
-    })
-    .then((response) => {
-      console.log(`response from ${BACKEND_URI}: ${response.status}`);
-      res.status(200).send("Snack added successfully");
-    })
-    .catch((error) => {
-      console.error("Error posting snack:", error);
-      res.status(500).send("Error posting snack");
-    });
-});*/
 
 // 서버 시작
 app.listen(PORT, () => {

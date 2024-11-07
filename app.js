@@ -14,13 +14,9 @@ const LIKE_SNACK_URI = `http://${GUESTBOOK_API_ADDR}/snacks/required`;
 const PORT = process.env.PORT || 3001;
 
 // 환경 변수 체크
-if (!GUESTBOOK_API_ADDR) {
-  console.error("GUESTBOOK_API_ADDR environment variable is not defined");
-  throw new Error("GUESTBOOK_API_ADDR environment variable is not defined");
-}
-if (!process.env.PORT) {
-  console.error("PORT environment variable is not defined");
-  throw new Error("PORT environment variable is not defined");
+if (!GUESTBOOK_API_ADDR || !process.env.PORT) {
+  console.error("Required environment variables are not defined.");
+  throw new Error("Required environment variables are not defined.");
 }
 
 // 설정
@@ -28,7 +24,6 @@ app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 
 // 미들웨어 설정
-app.use("/js", express.static(path.join(__dirname, "views/js")));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -44,7 +39,6 @@ app.get("/", async (req, res) => {
     const response = await axios.get(SNACK_URI);
     const snacks = response.data;
     const isUserLoggedIn = req.cookies.user === "true";
-
     res.render("home", { snacks, user: isUserLoggedIn });
   } catch (error) {
     console.error("Error fetching snacks:", error);
@@ -55,7 +49,6 @@ app.get("/", async (req, res) => {
 // 로그인 요청을 처리하는 라우트 추가
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
-
   try {
     const response = await axios.get(BACKEND_URI, {
       params: { userName: username, userPass: password },
@@ -107,6 +100,44 @@ app.post("/like-snack", async (req, res) => {
   } catch (error) {
     console.error("Error liking snack:", error);
     res.status(500).json({ message: "An error occurred while liking the snack." });
+  }
+});
+
+// 스낵 추가 요청을 처리하는 라우트 추가
+app.post("/submit-snack", upload.single("photo"), async (req, res) => {
+  const { snackName, calories, carbohydrates, protein, fat } = req.body;
+  const image = req.file ? req.file.path : null; // 이미지 경로 저장
+
+  if (!snackName || !image) {
+    return res.status(400).json({ message: "Snack name and image are required." });
+  }
+
+  try {
+    const base64Image = `data:image/png;base64,${Buffer.from(image).toString("base64")}`;
+
+    const snackData = {
+      name: snackName,
+      nutritionalIngredients: {
+        칼로리: `${calories} kcal`,
+        탄: `${carbohydrates} g`,
+        단: `${protein} g`,
+        지: `${fat} g`,
+      },
+      image: base64Image,
+    };
+
+    const response = await axios.post(SNACK_URI, snackData, {
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (response.status === 201) {
+      res.status(201).json({ message: "Snack successfully added to MongoDB!" });
+    } else {
+      res.status(response.status).json({ message: "Failed to add snack." });
+    }
+  } catch (error) {
+    console.error("Error submitting snack:", error);
+    res.status(500).json({ message: "An error occurred while submitting the snack." });
   }
 });
 

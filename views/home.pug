@@ -1,4 +1,3 @@
-
 doctype html
 html(lang="ko")
   head
@@ -13,7 +12,8 @@ html(lang="ko")
     .header
       h1.logo Rapa
       h2.title Today's Snack
-      button.login-button(onclick=isLoggedIn ? "logout()" : "openModal()")= isLoggedIn ? "LOGOUT" : "LOGIN"
+      // 로그인 상태에 따라 버튼 설정
+      button.login-button(id="loginButton") LOGIN
 
     // 로그인 모달
     #loginModal.modal
@@ -27,15 +27,63 @@ html(lang="ko")
           input#password(type="password" name="password" required)
           button.btn-primary(type="submit") login
 
-    // 본문 내용
-    main.container.posts.mt-0
-      if user
-        include new.pug
-        include list.pug
-      else
-        p.alert.alert-info(role='alert')
-          | 로그인 후에 내용을 볼 수 있습니다.
+    // JavaScript 코드 직접 포함
+    script.
+      function openModal() {
+        document.getElementById("loginModal").style.display = "block";
+      }
 
-    // JavaScript 파일 포함
-    script(src="/js/script.js")
+      function closeModal() {
+        document.getElementById("loginModal").style.display = "none";
+      }
 
+      function logout() {
+        document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        location.reload();
+      }
+
+      async function submitLogin(event) {
+        event.preventDefault();
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        try {
+          const response = await fetch("/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+          });
+
+          const result = await response.json();
+          if (response.ok) {
+            alert("로그인 성공!");
+            closeModal();
+            location.reload();
+          } else {
+            alert(result.message);
+          }
+        } catch (error) {
+          console.log("로그인 요청 중 오류 발생:", error);
+          alert("서버 오류. 나중에 다시 시도해 주세요.");
+        }
+      }
+
+      // 페이지 로드 시 쿠키를 통해 로그인 상태 확인 및 버튼 설정
+      window.addEventListener("load", () => {
+        const cookieValue = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("user="))
+          ?.split("=")[1];
+
+        const isLoggedIn = cookieValue === "true";
+        const loginButton = document.getElementById("loginButton");
+        if (isLoggedIn) {
+          loginButton.textContent = "LOGOUT";
+          loginButton.setAttribute("onclick", "logout()");
+        } else {
+          loginButton.textContent = "LOGIN";
+          loginButton.setAttribute("onclick", "openModal()");
+        }
+      });

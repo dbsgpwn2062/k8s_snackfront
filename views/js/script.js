@@ -105,7 +105,7 @@ window.addEventListener("load", () => {
     loginButton.setAttribute("onclick", "openModal()");
   }
 });
-
+/*
 async function submitSnack(event) {
   event.preventDefault();
 
@@ -164,6 +164,7 @@ async function submitSnack(event) {
   };
   reader.readAsDataURL(imageFile);
 }
+*/
 /*
 async function likeSnack(snackName) {
   try {

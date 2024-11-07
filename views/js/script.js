@@ -1,5 +1,5 @@
 const GUESTBOOK_API_ADDR = process.env.GUESTBOOK_API_ADDR;
-const BACKEND_URI = `${GUESTBOOK_API_ADDR}/users`;
+const BACKEND_URI = `${GUESTBOOK_API_ADDR}/users/login`;
 
 // 모달 열기
 function openModal() {
@@ -35,7 +35,7 @@ async function submitLogin(event) {
   const password = document.getElementById("password").value;
 
   try {
-    const response = await axios.get("BACKEND_URI/login", {
+    const response = await axios.get(BACKEND_URI, {
       params: { userName: username, userPass: password },
       withCredentials: true,
     });

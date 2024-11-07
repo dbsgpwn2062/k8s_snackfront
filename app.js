@@ -1,15 +1,14 @@
 require("dotenv").config();
 const express = require("express");
 const path = require("path");
-const app = express();
-const bodyParser = require("body-parser");
 const axios = require("axios");
+const bodyParser = require("body-parser");
 const multer = require("multer");
 const cookieParser = require("cookie-parser");
-const util = require("./utils");
 
+const app = express();
 const GUESTBOOK_API_ADDR = process.env.GUESTBOOK_API_ADDR;
-const BACKEND_URI = `http://${GUESTBOOK_API_ADDR}/snacks`;
+const BACKEND_URI = `http://${GUESTBOOK_API_ADDR}/users/login`;
 const PORT = process.env.PORT || 3001;
 
 // 환경 변수 체크
@@ -40,17 +39,47 @@ const upload = multer({ dest: "uploads/" });
 // 홈 페이지 라우트에서 스낵 데이터를 가져와서 렌더링
 app.get("/", async (req, res) => {
   try {
-    const response = await axios.get(BACKEND_URI);
+    const response = await axios.get(`http://${GUESTBOOK_API_ADDR}/snacks`);
     const snacks = response.data;
     const isUserLoggedIn = req.cookies.user === "true";
-
-    console.log("User Logged In:", isUserLoggedIn);
 
     res.render("home", { snacks, user: isUserLoggedIn });
   } catch (error) {
     console.error("Error fetching snacks:", error);
     res.render("home", { snacks: [], user: false });
   }
+});
+
+// 로그인 요청을 처리하는 라우트 추가
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const response = await axios.get(BACKEND_URI, {
+      params: { userName: username, userPass: password },
+      withCredentials: true,
+    });
+
+    if (response.data.num) {
+      res.cookie("user", "true", {
+        httpOnly: false,
+        maxAge: 24 * 60 * 60 * 1000,
+        sameSite: "Lax",
+      });
+      res.status(200).json({ message: "로그인 성공" });
+    } else {
+      res.status(401).json({ message: "로그인 실패. 다시 시도해 주세요." });
+    }
+  } catch (error) {
+    console.log("로그인 요청 중 오류 발생:", error);
+    res.status(500).json({ message: "서버 오류. 나중에 다시 시도해 주세요." });
+  }
+});
+
+// 로그아웃 요청을 처리하는 라우트 추가
+app.post("/logout", (req, res) => {
+  res.clearCookie("user");
+  res.status(200).json({ message: "로그아웃 성공" });
 });
 
 // 서버 시작

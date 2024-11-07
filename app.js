@@ -45,7 +45,6 @@ app.get("/", async (req, res) => {
     const isUserLoggedIn = req.cookies.user === "true";
 
     console.log("User Logged In:", isUserLoggedIn);
-    console.log("Snacks Data:", snacks);
 
     res.render("home", { snacks, user: isUserLoggedIn });
   } catch (error) {

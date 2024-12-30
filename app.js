@@ -55,7 +55,9 @@ app.get("/", async (req, res) => {
 app.get("/ranking", async (req, res) => {
   try {
     // back_snack 서비스로 POST 요청 보내기
-    const response = await axios.get("http://back_snack:3000/snacks/ranking");
+    const response = await axios.get(
+      "http://snack-backend:3000/snacks/ranking"
+    );
     const snacks = response.data;
 
     // Pug 템플릿으로 좋아요 순위 데이터 전달
@@ -108,7 +110,7 @@ app.post("/post", async (req, res) => {
   //localhost:3000 -> back_snack
   try {
     // back_snack 서비스로 POST 요청 보내기
-    const response = await axios.post("http://back_snack:3000/snacks", {
+    const response = await axios.post("http://snack-backend:3000/snacks", {
       name,
       nutritionalIngredients,
       image,

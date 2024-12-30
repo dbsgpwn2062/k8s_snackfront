@@ -597,3 +597,144 @@ h1 a {
   top: 50%; /* 상단 기준 중앙 배치 */
   transform: translateY(-50%); /* 수직 중앙 정렬 */
 }
+
+/* 메뉴 버튼 */
+.menu-button-container {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+}
+
+.menu-button {
+  background-color: #f3f0eb;
+  border: none;
+  color: #3d2b1f;
+  font-size: 24px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* 슬라이드 메뉴 */
+.slide-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 150px;
+  height: 100%;
+  background-color: #3d2b1f;
+  color: #ffffff;
+  padding-top: 100px;
+  padding-left: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 999;
+}
+
+.slide-menu .menu-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.slide-menu .menu-item {
+  margin: 15px 0;
+}
+
+.slide-menu .menu-item a {
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 18px;
+  display: block;
+  transition: color 0.3s ease;
+}
+
+.slide-menu .menu-item a:hover {
+  color: #f3f0eb;
+}
+
+/* 닫기 버튼 */
+.close-menu {
+  background-color: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 24px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+}
+
+/* 스크롤 활성화 컨테이너 */
+/* 스크롤 활성화 컨테이너 */
+.rank-container {
+  width: 100%;
+  overflow-x: auto; /* 내부 가로 스크롤 활성화 */
+  white-space: nowrap; /* 콘텐츠 한 줄로 배치 */
+  padding: 10px 0;
+}
+
+/* 내부 콘텐츠 */
+.rank-content {
+  display: inline-flex; /* 가로로 배치 */
+  gap: 20px; /* 박스 간 간격 */
+}
+
+/* 개별 순위 상자 */
+.rank-box-container {
+  display: inline-flex;
+  flex-direction: column; /* 세로로 정렬 */
+  align-items: center; /* 가운데 정렬 */
+  gap: 10px; /* 상자와 이름 사이 간격 */
+  flex-shrink: 0; /* 크기 고정 */
+}
+
+.rank-box {
+  width: 150px;
+  height: 150px; /* 박스의 고정 높이 */
+  background-color: #fff;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* 이미지와 순위 번호 상단에 배치 */
+  position: relative; /* 내부 요소 절대 배치 가능 */
+  overflow: hidden; /* 콘텐츠가 넘치더라도 박스 크기에 맞춰 자름 */
+  box-sizing: border-box; /* 패딩과 테두리를 포함해 크기 계산 */
+}
+
+.rank-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* 이미지가 박스 크기에 맞게 비율 유지하며 조정 */
+}
+
+.rank-number {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #f37021;
+  color: white;
+  font-size: 1em;
+  font-weight: bold;
+  border-radius: 4px;
+  padding: 2px 8px;
+  z-index: 10; /* 이미지 위에 배치되도록 설정 */
+}
+
+.snack-name {
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 0px;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* 이름이 너무 길 경우 ... 표시 */
+}

@@ -5,8 +5,8 @@ const axios = require("axios");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const cookieParser = require("cookie-parser");
-
 const app = express();
+
 const GUESTBOOK_API_ADDR = process.env.GUESTBOOK_API_ADDR;
 const BACKEND_URI = `http://${GUESTBOOK_API_ADDR}/users/login`;
 const SNACK_URI = `http://${GUESTBOOK_API_ADDR}/snacks`;
@@ -43,29 +43,29 @@ app.get("/", async (req, res) => {
   try {
     const response = await axios.get(SNACK_URI);
     const snacks = response.data;
-    const isLoggedIn = req.cookies.user === "true";
+    //const isLoggedIn = req.cookies.user === "true";
 
-    res.render("home", { snacks, user: isLoggedIn });
+    res.render("home", { snacks });
   } catch (error) {
     console.error("Error fetching snacks:", error);
-    res.render("home", { snacks: [], user: false });
+    res.render("home", { snacks: [] });
   }
 });
 
-/*
-app.get("/", async (req, res) => {
+app.get("/ranking", async (req, res) => {
   try {
-    const response = await axios.get(SNACK_URI);
+    // back_snack 서비스로 POST 요청 보내기
+    const response = await axios.get("http://back_snack:3000/snacks/ranking");
     const snacks = response.data;
-    const isUserLoggedIn = req.cookies.user === "true";
 
-    res.render("home", { snacks, user: isUserLoggedIn });
+    // Pug 템플릿으로 좋아요 순위 데이터 전달
+    res.render("ranking", { title: "Snack Rankings", snacks });
   } catch (error) {
-    console.error("Error fetching snacks:", error);
-    res.render("home", { snacks: [], user: false });
+    console.error("Error fetching snack rankings:", error);
+    res.render("ranking", { title: "Snack Rankings", snacks: [] });
   }
 });
-*/
+/*
 // 로그인 요청을 처리하는 라우트 추가
 app.post("/login", async (req, res) => {
   const username = req.body.username.trim(); // 공백 제거
@@ -92,17 +92,20 @@ app.post("/login", async (req, res) => {
     res.status(500).json({ message: "서버 오류. 나중에 다시 시도해 주세요." });
   }
 });
+*/
 
+/*
 // 로그아웃 요청을 처리하는 라우트 추가
 app.post("/logout", (req, res) => {
   res.clearCookie("user");
   res.status(200).json({ message: "로그아웃 성공" });
 });
+*/
 
 // 과자 추가 요청 처리
 app.post("/post", async (req, res) => {
   const { name, nutritionalIngredients, image } = req.body;
-
+  //localhost:3000 -> back_snack
   try {
     // back_snack 서비스로 POST 요청 보내기
     const response = await axios.post("http://back_snack:3000/snacks", {
@@ -133,11 +136,15 @@ app.post("/likesnack", async (req, res) => {
 
   try {
     const encodedSnackName = encodeURIComponent(snackName);
-    const response = await axios.post(`${LIKE_SNACK_URI}?name=${encodedSnackName}`, {}, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await axios.post(
+      `${LIKE_SNACK_URI}?name=${encodedSnackName}`,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (response.status === 200) {
       res.status(200).json({ message: `Successfully liked ${snackName}` });
@@ -146,7 +153,9 @@ app.post("/likesnack", async (req, res) => {
     }
   } catch (error) {
     console.error("Error liking snack:", error);
-    res.status(500).json({ message: "An error occurred while liking the snack." });
+    res
+      .status(500)
+      .json({ message: "An error occurred while liking the snack." });
   }
 });
 

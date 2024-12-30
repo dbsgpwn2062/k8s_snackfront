@@ -6,7 +6,6 @@ html(lang="ko")
     title #{title}
     link(href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap" rel="stylesheet")
     link(rel="stylesheet" href="/css/style.css")
-    script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
 
   body
     // 메뉴 버튼
@@ -22,18 +21,21 @@ html(lang="ko")
           a(href="/ranking") Ranking
       button.close-menu(onclick="closeMenu()") ✖
 
-    // 헤더
     .header
       h1.logo Rapa
-      h2.title Today's Snack
+      h2.title Snack Rankings
 
-    // 본문 내용
-    main.container.posts.mt-0
-      .content-section
-        include new.pug
-        include list.pug
+    main
+      h2 Snack Rankings
+      .rank-container
+        .rank-content
+          each snack, index in snacks
+            .rank-box-container
+              .rank-box
+                span.rank-number #{index + 1} 
+                img(src=snack.image alt=snack.name)
+              .snack-name #{snack.name} 
 
-    // JavaScript 코드
     script.
       function openMenu() {
         const menu = document.getElementById("slideMenu");

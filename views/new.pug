@@ -3,32 +3,6 @@ html
   head
     title Snack Submission
     link(rel="stylesheet" href="/css/style.css")
-  body
-    form.form-inline(action="/post" method="POST" enctype="multipart/form-data" id="snackForm")
-      .row
-        .col
-          .input-group.mb-2.mr-sm-2
-            label.input-label(for="snackName") 과자 이름*
-            input.form-control#snackName(type="text" name="snackName" required)
-        .col
-          .input-group.mb-2.mr-sm-2.file-input-wrapper
-            label.input-label(for="photo") 사진 첨부
-            label.custom-file-label 파일 선택
-            input#photo(type="file" name="photo")
-      .nutrition-container(style="display: flex; justify-content: space-around; border: 2px solid #3a1e00; border-radius: 10px; padding: 10px; background-color: #fff7e6; max-width: 650px; width: 100%; box-sizing: border-box; margin: 0 auto;")
-        .nutrition-field(style="flex-basis: 22%; text-align: center;")
-          label(for="calories") 칼로리   
-          input.form-control#calories(type="text" name="calories")
-        .nutrition-field(style="flex-basis: 22%; text-align: center;")
-          label(for="carbohydrates") 탄수화물
-          input.form-control#carbohydrates(type="text" name="carbohydrates")
-        .nutrition-field(style="flex-basis: 22%; text-align: center;")
-          label(for="protein") 단백질   
-          input.form-control#protein(type="text" name="protein")
-        .nutrition-field(style="flex-basis: 22%; text-align: center;")
-          label(for="fat")  지    방   
-          input.form-control#fat(type="text" name="fat")
-      button.btn.btn-primary.mb-2(type="button" onclick="submitSnack(event)") Pass to MongoDB
 
     // script.js 내용 포함
     script.

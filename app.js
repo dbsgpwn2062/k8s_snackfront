@@ -11,6 +11,7 @@ const GUESTBOOK_API_ADDR = process.env.GUESTBOOK_API_ADDR;
 const BACKEND_URI = `http://${GUESTBOOK_API_ADDR}/users/login`;
 const SNACK_URI = `http://${GUESTBOOK_API_ADDR}/snacks`;
 const LIKE_SNACK_URI = `http://${GUESTBOOK_API_ADDR}/snacks/required`;
+const RANKING_URI = `http://${GUESTBOOK_API_ADDR}/snacks/ranking`;
 const PORT = process.env.PORT || 3001;
 
 // 환경 변수 체크
@@ -55,9 +56,7 @@ app.get("/", async (req, res) => {
 app.get("/ranking", async (req, res) => {
   try {
     // back_snack 서비스로 POST 요청 보내기
-    const response = await axios.get(
-      "http://snack-backend:3000.back.svc.cluster.local/snacks/ranking"
-    );
+    const response = await axios.get(RANKING_URI);
     const snacks = response.data;
 
     // Pug 템플릿으로 좋아요 순위 데이터 전달
@@ -110,14 +109,11 @@ app.post("/post", async (req, res) => {
   //localhost:3000 -> back_snack
   try {
     // back_snack 서비스로 POST 요청 보내기
-    const response = await axios.post(
-      "http://snack-backend.back.svc.cluster.local:3000/snacks",
-      {
-        name,
-        nutritionalIngredients,
-        image,
-      }
-    );
+    const response = await axios.post(SNACK_URI, {
+      name,
+      nutritionalIngredients,
+      image,
+    });
 
     if (response.status === 201) {
       res.status(201).json({ message: "Snack added successfully" });

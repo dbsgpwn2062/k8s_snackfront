@@ -56,7 +56,7 @@ app.get("/ranking", async (req, res) => {
   try {
     // back_snack 서비스로 POST 요청 보내기
     const response = await axios.get(
-      "http://snack-backend:3000/snacks/ranking"
+      "http://snack-backend:3000.back.svc.cluster.local/snacks/ranking"
     );
     const snacks = response.data;
 
@@ -110,11 +110,14 @@ app.post("/post", async (req, res) => {
   //localhost:3000 -> back_snack
   try {
     // back_snack 서비스로 POST 요청 보내기
-    const response = await axios.post("http://snack-backend:3000/snacks", {
-      name,
-      nutritionalIngredients,
-      image,
-    });
+    const response = await axios.post(
+      "http://snack-backend.back.svc.cluster.local:3000/snacks",
+      {
+        name,
+        nutritionalIngredients,
+        image,
+      }
+    );
 
     if (response.status === 201) {
       res.status(201).json({ message: "Snack added successfully" });
